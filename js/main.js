@@ -9,7 +9,7 @@ Config.warnings = false;
 
 /** Settings */
 var WIDTH            = $('#field').width();
-var HEIGHT           = 800;
+var HEIGHT           = $("#field").height();
 var MAX_SPEED        = 5;
 var START_X          = WIDTH/2;
 var START_Y          = HEIGHT/2;
@@ -18,11 +18,34 @@ var SCORE_RADIUS     = 100;
 // GA settings
 var PLAYER_AMOUNT    = Math.round(2.3e-4 * WIDTH * HEIGHT);
 var ITERATIONS       = 250;
-var MUTATION_RATE    = 0.3;
-var ELITISM          = Math.round(0.1 * PLAYER_AMOUNT);
+var MUTATION_RATE    = 0.4;
+var ELITISM          = Math.round(0.3 * PLAYER_AMOUNT);
 
 // Trained population
-var USE_TRAINED_POP = true;
+var USE_TRAINED_POP = false;
+
+/**User settings */
+var drawPlayers = true;
+
+$("#drawPlayersCheckbox").prop("checked", true);
+$("#drawPlayersCheckbox").change(function(e){
+  drawPlayers = $(this).is(":checked");
+})
+$("#showBestNetwork").prop("checked", true);
+$("#showBestNetwork").change(function(e){
+  if($(this).is(":checked")){
+    $(".best").show();
+  }else{
+    $(".best").hide();
+  }
+})
+$("#save").click(function(){
+  localStorage.setItem("population", JSON.stringify(neat.export()));
+})
+$("#clear").click(function(){
+  localStorage.removeItem("population");
+})
+
 
 /** Global vars */
 var neat;
@@ -30,7 +53,7 @@ var neat;
 /** Construct the genetic algorithm */
 function initNeat(){
   neat = new Neat(
-    6, 1,
+    6, 3,
     null,
     {
       mutation: [
@@ -54,8 +77,8 @@ function initNeat(){
     }
   );
 
-  if(USE_TRAINED_POP){
-    neat.population = population;
+  if(localStorage.getItem("population")){
+    neat.import(JSON.parse(localStorage.getItem("population")));
   }
 
   // Draw the first graph
@@ -110,5 +133,6 @@ function endEvaluation(){
   neat.mutate();
 
   neat.generation++;
+  $("#gen").text(neat.generation)
   startEvaluation();
 }

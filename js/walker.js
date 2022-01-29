@@ -64,5 +64,11 @@ Walker.prototype = {
     strokeWeight(2);
     ellipse(this.x, this.y, SCORE_RADIUS*2);
     noStroke();
+    //best thingo
+    noFill();
+    stroke('lightblue');
+    strokeWeight(2);
+    ellipse(this.x, this.y, SCORE_RADIUS);
+    noStroke();
   },
 };

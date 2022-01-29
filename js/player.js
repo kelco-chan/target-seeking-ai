@@ -5,6 +5,9 @@ function Player(genome){
   this.vy = 0;
   this.r = 6;
 
+  this.mem1 = 0;
+  this.mem2 = 0;
+
   this.brain = genome;
   this.brain.score = 0;
 
@@ -18,6 +21,9 @@ Player.prototype = {
     var output = this.brain.activate(input);
 
     var moveangle = output[0] * 2 * PI;
+
+    this.mem1 = output[1];
+    this.mem2 = output[2];
 
     // Calculate next position
     this.ax = Math.cos(moveangle);
@@ -46,7 +52,7 @@ Player.prototype = {
   score: function(){
     var dist = distance(this.x, this.y, walker.x, walker.y);
     if(!isNaN(dist) && dist < SCORE_RADIUS){
-      this.brain.score += SCORE_RADIUS - dist;
+      this.brain.score += SCORE_RADIUS - Math.abs(SCORE_RADIUS/2 - dist);
     }
 
     // Replace highest score to visualise
@@ -77,15 +83,13 @@ Player.prototype = {
   detect: function(){
     var dist = Math.sqrt(this.x, this.y, walker.x, walker.y) / Math.sqrt(WIDTH**2 + HEIGHT**2);
     var targetAngle = angleToPoint(this.x, this.y, walker.x, walker.y) / TWO_PI;
-    var vx = (this.vx + MAX_SPEED) / MAX_SPEED;
-    var vy = (this.vy + MAX_SPEED) / MAX_SPEED;
-    var tvx = (walker.vx + MAX_SPEED) / MAX_SPEED;
-    var tvy = (walker.vy + MAX_SPEED) / MAX_SPEED;
+    var vang = Math.atan(this.vy / this.vx);
+    var v = Math.sqrt(this.vx ** 2 + this.vy ** 2) / MAX_SPEED / Math.SQRT2;
+    var mem1 = Math.max(-1, Math.min(1, this.mem1))
+    var mem2 = Math.max(-1, Math.min(1, this.mem2))
+    //var tvang = Math.atan(walker.vy / walker.vx);;
+    //var tv = Math.sqrt(walker.vx ** 2 + walker.vy ** 2) / MAX_SPEED / Math.SQRT2;
 
-    // NaN checking
-    targetAngle = isNaN(targetAngle) ? 0 : targetAngle;
-    dist = isNaN(dist) ? 0 : dist;
-
-    return [vx, vy, tvx, tvy, targetAngle, dist];
+    return [vang || 0, v || 0, /*tvang || 0, tv || 0,*/ targetAngle || 0, dist || 0, mem1 || 0, mem2 || 0];
   },
 };

@@ -17,36 +17,18 @@
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9">
-          <h2>Playing field</h2>
-          <p>
-             The following neural agents are a result of 100+ generations of evolution.
-             If you have any remarks, or have managed to improve the evolution process,
-             please make a post <a href="https://github.com/wagenaartje/neataptic/issues">
-             here</a>. You can also perform a pull request on this repo. The genomes
-             are alive live at the moment (every 250 frames). <i>Click on the field
-             to relocate the target!</i>
-          </p>
-        </div>
-        <div class="col-md-3">
-          <center><h2>Best genome</h2></center>
-        </div>
-        <div class="row">
-          <div class="col-md-9">
-            <div id="field">
-            </div>
-          </div>
-          <div class="col-md-3">
-              <svg class="best"/>
-          </div>
-      </div>
+    <div id="field"></div>
+    <div class="hud">
+      <div>Generation: <span id="gen">0</span></div>
+      <div>Iterations: <span id="iterationsCount">0/250</span></div>
+      <div>Draw players: <input type="checkbox" id="drawPlayersCheckbox" style="display: inline"/></div>
+      <div>Show best network: <input type="checkbox" id="showBestNetwork" /></div>
+      <button style="display: inline" id="clear">Clear LS</button><button style="display: inline" id="save">Save to LS</button>
     </div>
+    <svg class="best"></svg>
 
     <!-- The simulation + genetic algorithm -->
     <script src="js/main.js"></script>
-    <script src="js/population.js"></script>
     <script src="js/walker.js"></script>
     <script src="js/player.js"></script>
     <script src="js/field.js"></script>

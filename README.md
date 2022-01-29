@@ -1,4 +1,15 @@
-# Target-seeking AI
+# A fork of the original target seeking AI
+### Changes made:
+* Agents now earn the maximum score by sticking to the blue circle of the target
+* All vector quantities (velocity, position) given to the agent are represented in polar coordinates to speed up evolution
+* Agents are given the angle of their velocity and the 
+* 2 memory slots are added that the agent can read/write to
+* Restyled webpage
+* Added `draw players` checkbox to speed up training
+* Added save/restore functionality to localstorage
+* Changed a few GA settings (elitism & mutation rate)
+
+# [Original README]
 This repository shows how you can use [Neataptic](https://github.com/wagenaartje/neataptic) to succesfully teach neural networks to trace targets. You can see the genomes live in action [here](https://wagenaartje.github.io/target-seeking-ai/). These genomes have been trained for over 100 generations and are very effective. Visualisation done with [P5.js](https://p5js.org/). The next step would be adding collisions, to possibly reveal some interesting tactics.
 
 [Read an article on this repo here](https://wagenaartje.github.io/neataptic/articles/targetseeking/).
@@ -25,25 +36,3 @@ If you manage to optimize the settings, please perform either a pull request or 
 * `START_HIDDEN_SIZE` set the amount of hidden nodes each genome starts witch
 * `MUTATION_RATE` set the mutation rate
 * `ELITISM` set the amount of elitism
-
-Most important setting:
-* `USE_TRAINED_POP` setting this to `false` will start the evolution from scratch (USE THIS WHEN OPTIMIZING THE SETTINGS), setting this to `true` will use the pre-trained population
-
-#### Default setting values
-```javascript
-var WIDTH            = $('#field').width();
-var HEIGHT           = 800;
-var MAX_SPEED        = 5;
-var START_X          = WIDTH/2;
-var START_Y          = HEIGHT/2;
-var SCORE_RADIUS     = 100;
-
-// GA settings
-var PLAYER_AMOUNT    = Math.round(2.3e-4 * WIDTH * HEIGHT);
-var ITERATIONS       = 250;
-var MUTATION_RATE    = 0.3;
-var ELITISM          = Math.round(0.1 * PLAYER_AMOUNT);
-
-// Trained population
-var USE_TRAINED_POP = true;
-```

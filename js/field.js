@@ -17,28 +17,33 @@ function setup(){
 
   startEvaluation();
 }
-
+let iterationsCountEle = $("#iterationsCount");
 function draw(){
-  clear();
-  squareGrid();
+  
 
   // Check if evaluation is done
+  if(iteration % 15 === 0){
+    iterationsCountEle.text(`${iteration}/${ITERATIONS}`)
+  }
   if(iteration == ITERATIONS){
     endEvaluation();
     iteration = 0;
   }
 
   // Update and visualise players
-  for(var i = players.length - 1; i >= 0; i--){
-    var player = players[i];
-
-    // Some players are eaten during the iteration
+  for(let player of players){
     player.update();
-    player.show();
   }
-
   walker.update();
-  walker.show();
+
+  if(drawPlayers){
+    clear();
+    squareGrid();
+    for(let player of players){
+      player.show();
+    }
+    walker.show();
+  }
 
   iteration++;
 }
@@ -91,9 +96,9 @@ function angleToPoint(x1, y1, x2, y2){
 }
 
 /** Set the walker to a new location */
-function mouseClicked(){
+/*function mouseClicked(){
   if(mouseX >= 0 && mouseX <= WIDTH && mouseY >= 0 && mouseY <= HEIGHT){
     walker.x = mouseX;
     walker.y = mouseY;
   }
-}
+}*/
